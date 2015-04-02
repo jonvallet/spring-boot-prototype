@@ -19,18 +19,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/index.html").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                    .antMatchers("/", "/home").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                    .and()
                 .httpBasic()
-                .and()
-                .logout().permitAll();
+                    .and()
+                .logout()
+                    .permitAll();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin").password("admin").roles("USER");
+                .withUser("jon.vallet@proxama.com").password("admin").roles("USER");
     }
 }
